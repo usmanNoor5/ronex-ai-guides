@@ -1,0 +1,71 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=1080, height=1920"/>
+<title>Explainer template</title>
+<!-- Run `npm run setup` once: it copies gsap.min.js into assets/. -->
+<script src="assets/gsap.min.js"></script>
+<style>
+/* PALETTE TOKENS: change these, nothing else holds colour.
+   dark scenes use --d-*, light scenes use --l-*; --act is the single accent. */
+:root{
+  --d-bg:#09080A; --d-fg:#E1E1DF; --d-dim:#8A8A88; --d-panel:#131315; --d-line:#4B4C49; --act-d:#34D961;
+  --l-bg:#E1E1DF; --l-fg:#09080A; --l-dim:#5E5E5C; --l-panel:#F1F1EF; --l-line:#09080A; --act-l:#1E9E45;
+  --head-font:'Georgia',serif; --mono-font:'DejaVu Sans Mono',monospace; --cap-font:'Arial Black','DejaVu Sans',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;background:var(--d-bg)}
+#root{position:absolute;left:0;top:0;width:1080px;height:1920px;overflow:hidden;font-family:var(--mono-font);color:var(--d-fg)}
+#bgD,#bgL{position:absolute;inset:0}
+#bgD{background:var(--d-bg)} #bgL{background:var(--l-bg);opacity:0}
+.sc{position:absolute;inset:0;visibility:hidden}
+.sc.dark{--fg:var(--d-fg);--dim:var(--d-dim);--act:var(--act-d);--panel:var(--d-panel);--bd:var(--d-line)}
+.sc.light{--fg:var(--l-fg);--dim:var(--l-dim);--act:var(--act-l);--panel:var(--l-panel);--bd:var(--l-line)}
+.sc{color:var(--fg)}
+.inner{position:absolute;inset:0}
+#wm{position:absolute;left:87px;top:150px;font-size:28px;letter-spacing:.25em;z-index:5}
+.head{position:absolute;left:60px;width:960px;text-align:center;font-family:var(--head-font);font-size:84px;line-height:1.14}
+.head .l{display:block}.head .d{color:var(--dim)}.head .g{color:var(--act)}
+.cap{position:absolute;left:0;width:1080px;text-align:center;top:1300px}
+.cap span{display:inline-block;font-family:var(--cap-font);font-size:60px;padding:14px 34px;background:var(--d-bg);color:var(--d-fg);border-radius:8px}
+.cap b{color:var(--act-d)}
+.card{position:absolute;background:#0D0D0F;border:4px solid var(--d-line);border-radius:16px;color:var(--d-fg);overflow:hidden}
+.nd{position:absolute;border:4px solid var(--fg);border-radius:16px;display:flex;align-items:center;padding:0 34px;background:var(--panel);font-size:40px}
+</style></head><body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="15" data-width="1080" data-height="1920">
+<div id="bgD"></div><div id="bgL"></div>
+<div id="wm">YOUR NAME</div>
+
+<!-- Scene 1 (dark) 0-5: hook -->
+<div class="sc dark" id="s1"><div class="inner" id="i1">
+  <div class="head" style="top:250px"><span class="l g" style="font-size:150px">HOOK TEXT</span><span class="l d" style="font-size:78px">Second line placeholder.</span></div>
+  <div class="card" id="k1" style="left:60px;top:700px;width:960px;height:420px"><div style="padding:30px;font-size:32px;line-height:1.6"><span style="color:var(--d-dim)">Placeholder line one</span><br>Placeholder line two<br><span style="color:var(--act-d)">Placeholder result</span></div></div>
+  <div class="cap"><span id="c1">CAPTION <b>PLACEHOLDER</b></span></div>
+</div></div>
+
+<!-- Scene 2 (light) 5-10: list/diagram -->
+<div class="sc light" id="s2"><div class="inner" id="i2">
+  <div class="head" style="top:250px"><span class="l">Title placeholder</span><span class="l d" style="font-size:54px">Subtitle placeholder.</span></div>
+  <div class="nd" id="n0" style="left:60px;top:560px;width:960px;height:104px">Item one</div>
+  <div class="nd" id="n1" style="left:60px;top:704px;width:960px;height:104px">Item two</div>
+  <div class="nd" id="n2" style="left:60px;top:848px;width:960px;height:104px">Item three</div>
+</div></div>
+
+<!-- Scene 3 (dark) 10-15: end -->
+<div class="sc dark" id="s3"><div class="inner" id="i3">
+  <div class="head" style="top:640px"><span class="l g" style="font-size:110px">Takeaway placeholder</span><span class="l d" style="font-size:60px">Call to action placeholder.</span></div>
+</div></div>
+</div>
+
+<script>
+window.__timelines = window.__timelines || {};
+const tl = gsap.timeline({paused:true});
+// scene helper: show at a, fade out at b-.35, hide at b
+function scene(s,i,a,b){tl.set("#"+s,{visibility:"visible"},a);tl.fromTo("#"+i,{opacity:0,y:40},{opacity:1,y:0,duration:.4,ease:"power3.out"},a);
+  tl.to("#"+i,{opacity:0,y:-50,duration:.35,ease:"power3.in"},b-.35);tl.set("#"+s,{visibility:"hidden"},b);}
+// light background window for scene 2 (5-10), watermark colour follows
+tl.to("#bgL",{opacity:1,duration:.4},4.8);tl.to("#bgL",{opacity:0,duration:.4},9.8);
+tl.to("#wm",{color:"#09080A",duration:.4},4.8);tl.to("#wm",{color:"#E1E1DF",duration:.4},9.8);
+scene("s1","i1",0,5); scene("s2","i2",5,10); scene("s3","i3",10,15);
+tl.fromTo("#k1",{opacity:0,y:60},{opacity:1,y:0,duration:.5,ease:"power3.out"},0.6);
+tl.fromTo("#c1",{scale:1},{scale:1.04,duration:.25,yoyo:true,repeat:1},2.4);
+["n0","n1","n2"].forEach((id,k)=>tl.fromTo("#"+id,{opacity:0,x:-60},{opacity:1,x:0,duration:.4,ease:"power3.out"},5.6+k*.3));
+window.__timelines["main"]=tl;
+</script></body></html>

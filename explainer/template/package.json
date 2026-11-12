@@ -1,0 +1,11 @@
+{
+  "name": "explainer-template",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "setup": "npm install gsap && mkdir -p assets && cp node_modules/gsap/dist/gsap.min.js assets/gsap.min.js",
+    "check": "npx --yes hyperframes@0.9.33 check",
+    "dev": "npx --yes hyperframes@0.9.33 preview",
+    "render": "npx --yes hyperframes@0.9.33 render --fps 30 -o silent.mp4"
+  }
+}
